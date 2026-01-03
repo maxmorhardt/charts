@@ -3,7 +3,7 @@ name: Chart CI
 on:
   push:
     tags:
-      - '*'
+      - '**'
 
 jobs:
   tag-parse:
