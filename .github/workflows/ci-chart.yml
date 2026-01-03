@@ -6,14 +6,14 @@ on:
       - '*/[0-9]*'
 
 jobs:
-  parse:
+  tag-parse:
     runs-on: ubuntu-latest
     outputs:
-      chart_name: ${{ steps.parse.outputs.chart_name }}
-      chart_version: ${{ steps.parse.outputs.chart_version }}
+      chart_name: ${{ steps.tag-parse.outputs.chart_name }}
+      chart_version: ${{ steps.tag-parse.outputs.chart_version }}
     steps:
       - name: Parse tag
-        id: parse
+        id: tag-parse
         run: |
           TAG="${{ github.ref_name }}"
           CHART_NAME="${TAG%%/*}"
@@ -23,23 +23,11 @@ jobs:
           echo "Chart: ${CHART_NAME}, Version: ${CHART_VERSION}"
 
   ci:
-    needs: parse
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Install Helm
-        uses: azure/setup-helm@v4
-        with:
-          version: 'latest'
-
-      - name: Login to Helm registry
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | helm registry login docker.io \
-            --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-      - name: Package and push Helm chart
-        run: |
-          helm package ${{ needs.parse.outputs.chart_name }}
-          helm push ${{ needs.parse.outputs.chart_name }}-*.tgz oci://docker.io/${{ secrets.DOCKER_USERNAME }}
+    needs: tag-parse
+    uses: maxmorhardt/workflows/.github/workflows/ci-helm.yml@main
+    with:
+      repository: ${{ github.repository }}
+      chart_directory: ${{ needs.tag-parse.outputs.chart_name }}
+      chart_name: ${{ needs.tag-parse.outputs.chart_name }}
+      working_directory: '.'
+    secrets: inherit
