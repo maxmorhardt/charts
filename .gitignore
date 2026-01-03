@@ -1,0 +1,36 @@
+# Helm chart packages
+*.tgz
+
+# Helm dependency charts
+charts/*/charts/
+
+# Helm lock files
+Chart.lock
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.iml
+*.code-workspace
+
+# Environment files
+.env
+.env.local
+
+# Test outputs
+test-results/
+coverage/
+
+# Helm debug output
+debug/
