@@ -4,9 +4,11 @@ This repository contains Helm charts and associated workflows for deploying appl
 
 ## Available Charts
 
-### maxstash/squares-api
+### squares
+Frontend application chart located in `squares/`.
 
-API service chart located in `maxstash/squares-api/`.
+### squares-api
+API service chart located in `squares-api/`.
 
 ## Usage
 
@@ -20,16 +22,21 @@ API service chart located in `maxstash/squares-api/`.
 
 ```bash
 # Install from local directory
-helm install <release-name> ./maxstash/squares-api
+helm install <release-name> ./squares-api
 
 # Install with custom values
-helm install <release-name> ./maxstash/squares-api -f custom-values.yaml
+helm install <release-name> ./squares-api -f custom-values.yaml
+
+# Add the Helm repository (after charts are released)
+helm repo add maxstash https://github.com/<your-org>/charts/releases/download/index
+helm repo update
+helm install <release-name> maxstash/squares-api
 ```
 
 ### Upgrading a Release
 
 ```bash
-helm upgrade <release-name> ./maxstash/squares-api
+helm upgrade <release-name> ./squares-api
 ```
 
 ### Uninstalling a Release
@@ -38,12 +45,26 @@ helm upgrade <release-name> ./maxstash/squares-api
 helm uninstall <release-name>
 ```
 
+## CI/CD
+
+This repository uses GitHub Actions for automated chart releases:
+
+- **On tag push**: Charts are linted, packaged, and released with the tag
+- **On pull request**: Charts are linted and tested
+
+To create a new release:
+```bash
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
+```
+
 ## Development
 
 ### Linting Charts
 
 ```bash
-helm lint ./maxstash/squares-api
+helm lint ./squares
+helm lint ./squares-api
 ```
 
 ### Testing Template Rendering
