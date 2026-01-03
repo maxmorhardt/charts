@@ -98,7 +98,7 @@ metrics:
     tag: latest
     pullPolicy: Always
     args:
-      - "--nginx.scrape-uri=http://127.0.0.1:9000/metrics"
+      - '--nginx.scrape-uri=http://127.0.0.1:9000/metrics'
   resources:
     limits:
       cpu: 20m
