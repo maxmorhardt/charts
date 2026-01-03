@@ -1,24 +1,26 @@
-# Helm Charts Repository
+# Helm Charts
 
-This repository contains Helm charts and associated workflows for deploying applications.
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Helm](https://img.shields.io/badge/helm-0F1689?style=for-the-badge&logo=helm&logoColor=white)
 
-## Available Charts
+Helm charts for deploying applications to Kubernetes.
 
-### squares
-Frontend application chart located in `squares/`.
+## Overview
 
-### squares-api
-API service chart located in `squares-api/`.
+This repository contains Helm charts for deploying and managing applications on Kubernetes clusters. Each chart includes production-ready configurations with support for autoscaling, ingress, and pod disruption budgets.
 
-## Usage
+## Setup
 
-### Prerequisites
-
+Required for deployment:
 - Kubernetes cluster (1.19+)
 - Helm 3.x installed
 - `kubectl` configured to access your cluster
 
-### Installing a Chart
+## Usage
+
+To install a chart from this repository:
 
 ```bash
 # Install from local directory
@@ -27,65 +29,19 @@ helm install <release-name> ./squares-api
 # Install with custom values
 helm install <release-name> ./squares-api -f custom-values.yaml
 
-# Add the Helm repository (after charts are released)
-helm repo add maxstash https://github.com/<your-org>/charts/releases/download/index
-helm repo update
-helm install <release-name> maxstash/squares-api
-```
-
-### Upgrading a Release
-
-```bash
+# Upgrade an existing release
 helm upgrade <release-name> ./squares-api
 ```
 
-### Uninstalling a Release
+## Available Charts
 
-```bash
-helm uninstall <release-name>
-```
+### Application Charts
+- **squares** - Frontend application chart
+- **squares-api** - API service chart
 
-## CI/CD
-
-This repository uses GitHub Actions for automated chart releases:
-
-- **On tag push**: Charts are linted, packaged, and released with the tag
-- **On pull request**: Charts are linted and tested
-
-To create a new release:
-```bash
-git tag -a v1.0.0 -m "Release v1.0.0"
-git push origin v1.0.0
-```
-
-## Development
-
-### Linting Charts
-
-```bash
-helm lint ./squares
-helm lint ./squares-api
-```
-
-### Testing Template Rendering
-
-```bash
-helm template <release-name> ./maxstash/squares-api
-```
-
-### Packaging Charts
-
-```bash
-helm package ./maxstash/squares-api
-```
-
-## Chart Structure
-
-Each chart follows the standard Helm structure:
-- `Chart.yaml` - Chart metadata
-- `values.yaml` - Default configuration values
-- `templates/` - Kubernetes manifest templates
-
-## License
-
-See [LICENSE](LICENSE) for details.
+Each chart includes:
+- Deployment with configurable replicas
+- Service configuration
+- Horizontal Pod Autoscaler (HPA)
+- Ingress support
+- Pod Disruption Budget (PDB)
