@@ -15,9 +15,9 @@ spec:
         {{- include "app.labels" . | nindent 8 }}
     spec:
       securityContext:
-        runAsNonRoot: {{ .Values.image.securityContext.runAsNonRoot }}
-        runAsUser: {{ .Values.image.securityContext.runAsUser }}
-        fsGroup: {{ .Values.image.securityContext.fsGroup }}
+        runAsNonRoot: {{ .runAsNonRoot }}
+        runAsUser: {{ .runAsUser }}
+        fsGroup: {{ .fsGroup }}
         seccompProfile:
           type: RuntimeDefault
       {{- if .Values.affinity.podAntiAffinity.enabled }}
