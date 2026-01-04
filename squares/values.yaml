@@ -82,7 +82,7 @@ affinity:
 
 hpa:
   enabled: true
-  minReplicas: 5
+  minReplicas: 3
   maxReplicas: 20
   targetCPU: 80
   targetRAM: 80
