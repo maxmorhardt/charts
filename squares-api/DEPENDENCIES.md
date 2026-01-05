@@ -9,24 +9,23 @@
 
 ```bash
 kubectl create secret generic squares-api-env \
-  --from-literal=db-host='postgres.example.com' \
-  --from-literal=db-port='5432' \
-  --from-literal=db-user='squares_user' \
-  --from-literal=db-password='your-password' \
-  --from-literal=db-name='squares' \
-  --from-literal=db-ssl-mode='require' \
-  --from-literal=redis-host='redis.example.com:6379' \
-  --from-literal=smtp-host='smtp.example.com' \
-  --from-literal=smtp-port='587' \
-  --from-literal=smtp-user='noreply@example.com' \
-  --from-literal=smtp-password='your-password' \
-  --from-literal=support-email='support@example.com' \
-  --from-literal=jwt-secret='your-secret'
+  --from-literal=DB_HOST='postgres.example.com' \
+  --from-literal=DB_PORT='5432' \
+  --from-literal=DB_USER='squares_user' \
+  --from-literal=DB_PASSWORD='your-password' \
+  --from-literal=DB_NAME='squares' \
+  --from-literal=DB_SSL_MODE='disable' \
+  --from-literal=DB_READ_HOST='postgres-read.example.com' \
+  --from-literal=DB_READ_PORT='5432' \
+  --from-literal=DB_READ_USER='squares_user' \
+  --from-literal=DB_READ_PASSWORD='your-password' \
+  --from-literal=DB_READ_NAME='squares' \
+  --from-literal=DB_READ_SSL_MODE='disable' \
+  --from-literal=REDIS_HOST='redis.example.com:6379' \
+  --from-literal=SMTP_HOST='smtp.example.com' \
+  --from-literal=SMTP_PORT='587' \
+  --from-literal=SMTP_USER='noreply@example.com' \
+  --from-literal=SMTP_PASSWORD='your-password' \
+  --from-literal=SUPPORT_EMAIL='support@example.com' \
+  --from-literal=JWT_SECRET='your-secret'
 ```
-
-## Optional
-
-- **NGINX Ingress Controller** - If ingress enabled
-- **TLS Secret** - If ingress enabled (name: `maxstash.io-tls`)
-- **DNS Record** - Point `api.maxstash.io` to ingress external IP
-- **Prometheus** - For metrics collection

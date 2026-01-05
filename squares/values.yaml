@@ -5,6 +5,11 @@ image:
   tag: latest
   pullPolicy: Always
   revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
