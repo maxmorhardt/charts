@@ -48,15 +48,13 @@ spec:
             capabilities:
               drop:
                 - ALL
-          {{- $metricsEnabled := .Values.metrics.enabled }}
           {{- with .Values.image.envFrom }}
           envFrom:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           env:
             - name: METRICS_ENABLED
-              value: {{ $metricsEnabled | quote }}
-          {{- end }}
+              value: {{ .Values.metrics.enabled | quote }}
           ports:
             - name: {{ .Values.service.name }}
               containerPort: {{ .Values.service.targetPort }}
