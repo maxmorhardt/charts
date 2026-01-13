@@ -29,5 +29,5 @@ jobs:
       repository: ${{ github.repository }}
       chart_directory: ${{ needs.tag-parse.outputs.chart_name }}
       chart_name: ${{ needs.tag-parse.outputs.chart_name }}
-      working_directory: '.'
+      working_directory: 'charts'
     secrets: inherit
