@@ -45,3 +45,5 @@ Each chart includes:
 - Horizontal Pod Autoscaler (HPA)
 - Ingress support
 - Pod Disruption Budget (PDB)
+- Prometheus Rules
+- Service Monitor
