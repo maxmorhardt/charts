@@ -18,7 +18,7 @@ jobs:
     uses: maxmorhardt/workflows/.github/workflows/cd-helm.yml@main
     with:
       repository: ${{ github.repository }}
-      release_name: ${{ github.event.repository.name }}
+      release_name: ${{ inputs.chart_name }}
       namespace: jobs
       chart: oci://docker.io/maxmorhardt/${{ inputs.chart_name }}
       chart_version: ${{ inputs.chart_version }}
