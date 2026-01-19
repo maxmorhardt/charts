@@ -22,6 +22,15 @@ jobs:
           echo "chart_version=${CHART_VERSION}" >> $GITHUB_OUTPUT
           echo "Chart: ${CHART_NAME}, Version: ${CHART_VERSION}"
 
+      - name: Validate chart version
+        run: |
+          chart_file="charts/${{ steps.tag-parse.outputs.chart_name }}/Chart.yaml"
+          version=$(grep '^version:' "$chart_file" | awk '{print $2}')
+          if [ "$version" != "${{ steps.tag-parse.outputs.chart_version }}" ]; then
+            echo "ERROR: Chart.yaml version ($version) does not match tag version (${{ steps.tag-parse.outputs.chart_version }})"
+            exit 1
+          fi
+
   ci:
     needs: tag-parse
     uses: maxmorhardt/workflows/.github/workflows/ci-helm.yml@main
