@@ -4,9 +4,43 @@ on:
   push:
     tags:
       - '**'
+  pull_request:
+    branches:
+      - main
 
 jobs:
+  discover-charts:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    outputs:
+      charts: ${{ steps.discover.outputs.charts }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Discover charts
+        id: discover
+        run: |
+          charts=$(find charts -maxdepth 1 -mindepth 1 -type d -exec basename {} \; | jq -R -s -c 'split("\n") | map(select(. != ""))')
+          echo "charts=${charts}" >> $GITHUB_OUTPUT
+          echo "Charts: ${charts}"
+
+  ci-pr:
+    needs: discover-charts
+    if: github.event_name == 'pull_request'
+    strategy:
+      matrix:
+        chart: ${{ fromJson(needs.discover-charts.outputs.charts) }}
+    uses: maxmorhardt/workflows/.github/workflows/ci-helm.yml@main
+    with:
+      repository: ${{ github.repository }}
+      chart_directory: ${{ matrix.chart }}
+      chart_name: ${{ matrix.chart }}
+      working_directory: 'charts'
+    secrets: inherit
+
   tag-parse:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     outputs:
       chart_name: ${{ steps.tag-parse.outputs.chart_name }}
@@ -34,8 +68,9 @@ jobs:
             exit 1
           fi
 
-  ci:
+  ci-tag:
     needs: tag-parse
+    if: github.event_name == 'push'
     uses: maxmorhardt/workflows/.github/workflows/ci-helm.yml@main
     with:
       repository: ${{ github.repository }}
