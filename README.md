@@ -47,3 +47,8 @@ Each chart includes:
 - Pod Disruption Budget (PDB)
 - Prometheus Rules
 - Service Monitor
+
+## License
+Helm charts in this repo are licensed under Apache 2.0.
+However, some Docker images deployed by these charts are licensed under
+PolyForm Noncommercial 1.0.0 and may not be used for commercial purposes.
