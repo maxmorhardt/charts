@@ -77,4 +77,5 @@ jobs:
       chart_directory: ${{ needs.tag-parse.outputs.chart_name }}
       chart_name: ${{ needs.tag-parse.outputs.chart_name }}
       working_directory: 'charts'
+      push: ${{ github.event_name == 'push' }}
     secrets: inherit
