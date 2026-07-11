@@ -9,7 +9,7 @@ Helm charts for deploying applications to Kubernetes.
 
 ## Overview
 
-This repository contains Helm charts for deploying and managing applications on Kubernetes clusters. Each chart includes production-ready configurations with support for autoscaling, ingress, and pod disruption budgets.
+This repository contains Helm charts for deploying and managing applications on Kubernetes clusters. Each chart includes production-ready configurations with support for autoscaling, Gateway API routing, and pod disruption budgets.
 
 ## Setup
 
@@ -43,7 +43,7 @@ Each chart includes:
 - Deployment with configurable replicas
 - Service configuration
 - Horizontal Pod Autoscaler (HPA)
-- Ingress support
+- Gateway API (HTTPRoute) support
 - Pod Disruption Budget (PDB)
 - Prometheus Rules
 - Service Monitor

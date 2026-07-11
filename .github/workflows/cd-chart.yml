@@ -12,6 +12,11 @@ on:
         required: false
         type: string
         default: ''
+      namespace:
+        description: 'Kubernetes namespace'
+        required: false
+        type: string
+        default: 'jobs'
 
 jobs:
   cd:
@@ -19,7 +24,7 @@ jobs:
     with:
       repository: ${{ github.repository }}
       release_name: ${{ inputs.chart_name }}
-      namespace: jobs
+      namespace: ${{ inputs.namespace }}
       chart: oci://docker.io/maxmorhardt/${{ inputs.chart_name }}
       chart_version: ${{ inputs.chart_version }}
     secrets: inherit
