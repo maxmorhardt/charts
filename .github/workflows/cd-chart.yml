@@ -25,6 +25,6 @@ jobs:
       repository: ${{ github.repository }}
       release_name: ${{ inputs.chart_name }}
       namespace: ${{ inputs.namespace }}
-      chart: oci://docker.io/maxmorhardt/${{ inputs.chart_name }}
+      chart: oci://ghcr.io/${{ github.repository_owner }}/charts/${{ inputs.chart_name }}
       chart_version: ${{ inputs.chart_version }}
     secrets: inherit
