@@ -2,7 +2,7 @@
   "charts/cloudflare-cidr": "1.0.0",
   "charts/cloudflare-ddns": "1.0.0",
   "charts/maxstash": "1.0.0",
-  "charts/maxstash-gateway": "10.0.0",
+  "charts/maxstash-gateway": "1.0.0",
   "charts/olympics": "1.0.0",
   "charts/olympics-api": "1.0.0",
   "charts/squares": "1.0.0",
