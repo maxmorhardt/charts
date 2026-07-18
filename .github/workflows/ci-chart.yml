@@ -13,7 +13,7 @@ permissions:
   packages: write
 
 jobs:
-  discover-charts:
+  validate-discover-charts:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
@@ -29,12 +29,12 @@ jobs:
           echo "charts=${charts}" >> $GITHUB_OUTPUT
           echo "Charts: ${charts}"
 
-  ci-pr:
-    needs: discover-charts
+  validate-charts:
+    needs: validate-discover-charts
     if: github.event_name == 'pull_request'
     strategy:
       matrix:
-        chart: ${{ fromJson(needs.discover-charts.outputs.charts) }}
+        chart: ${{ fromJson(needs.validate-discover-charts.outputs.charts) }}
     uses: maxmorhardt/workflows/.github/workflows/ci-helm.yml@main
     with:
       repository: ${{ github.repository }}
@@ -43,7 +43,23 @@ jobs:
       working_directory: 'charts'
     secrets: inherit
 
-  tag-parse:
+  validate-complete:
+    name: CI complete
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    needs: validate-charts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chart validation succeeded
+        env:
+          RESULT: ${{ needs.validate-charts.result }}
+        run: |
+          echo "ci-pr result: $RESULT"
+          if [ "$RESULT" != "success" ]; then
+            echo "one or more chart validation jobs failed"
+            exit 1
+          fi
+
+  ci-tag-parse:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     outputs:
@@ -64,13 +80,13 @@ jobs:
           echo "Chart: ${CHART_NAME}, Version: ${CHART_VERSION}"
 
   ci-tag:
-    needs: tag-parse
+    needs: ci-tag-parse
     if: github.event_name == 'push'
     uses: maxmorhardt/workflows/.github/workflows/ci-helm.yml@main
     with:
       repository: ${{ github.repository }}
-      chart_directory: ${{ needs.tag-parse.outputs.chart_name }}
-      chart_name: ${{ needs.tag-parse.outputs.chart_name }}
+      chart_directory: ${{ needs.ci-tag-parse.outputs.chart_name }}
+      chart_name: ${{ needs.ci-tag-parse.outputs.chart_name }}
       working_directory: 'charts'
       push: ${{ github.event_name == 'push' }}
     secrets: inherit
