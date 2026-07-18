@@ -79,7 +79,7 @@ jobs:
           echo "chart_version=${CHART_VERSION}" >> $GITHUB_OUTPUT
           echo "Chart: ${CHART_NAME}, Version: ${CHART_VERSION}"
 
-  ci-tag:
+  ci:
     needs: ci-tag-parse
     if: github.event_name == 'push'
     uses: maxmorhardt/workflows/.github/workflows/ci-helm.yml@main
