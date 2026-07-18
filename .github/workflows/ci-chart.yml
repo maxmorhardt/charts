@@ -44,12 +44,12 @@ jobs:
     secrets: inherit
 
   validate-complete:
-    name: CI complete
+    name: Validate Complete
     if: ${{ always() && github.event_name == 'pull_request' }}
     needs: validate-charts
     runs-on: ubuntu-latest
     steps:
-      - name: Chart validation succeeded
+      - name: Verify all validations succeeded
         env:
           RESULT: ${{ needs.validate-charts.result }}
         run: |
