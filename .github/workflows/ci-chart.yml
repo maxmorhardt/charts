@@ -90,3 +90,12 @@ jobs:
       working_directory: 'charts'
       push: ${{ github.event_name == 'push' }}
     secrets: inherit
+
+  deploy:
+    needs: [ci-tag-parse, ci]
+    if: github.event_name == 'push'
+    uses: maxmorhardt/workflows/.github/workflows/cd-argocd.yml@main
+    with:
+      app: ${{ needs.ci-tag-parse.outputs.chart_name }}
+      chart_version: ${{ needs.ci-tag-parse.outputs.chart_version }}
+    secrets: inherit
