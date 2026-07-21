@@ -1,10 +1,10 @@
 {
   "charts/cloudflare-cidr": "1.0.1",
   "charts/cloudflare-ddns": "1.0.1",
-  "charts/maxstash": "1.0.1",
+  "charts/maxstash": "1.0.2",
   "charts/maxstash-gateway": "1.0.0",
-  "charts/olympics": "1.0.1",
-  "charts/olympics-api": "1.0.1",
-  "charts/squares": "1.0.1",
-  "charts/squares-api": "1.1.1"
+  "charts/olympics": "1.0.2",
+  "charts/olympics-api": "1.0.2",
+  "charts/squares": "1.0.2",
+  "charts/squares-api": "1.1.2"
 }
