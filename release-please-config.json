@@ -8,8 +8,6 @@
     "charts/cloudflare-ddns": { "release-type": "helm", "component": "cloudflare-ddns" },
     "charts/maxstash": { "release-type": "helm", "component": "maxstash" },
     "charts/maxstash-gateway": { "release-type": "helm", "component": "maxstash-gateway" },
-    "charts/olympics": { "release-type": "helm", "component": "olympics" },
-    "charts/olympics-api": { "release-type": "helm", "component": "olympics-api" },
     "charts/squares": { "release-type": "helm", "component": "squares" },
     "charts/squares-api": { "release-type": "helm", "component": "squares-api" }
   }
