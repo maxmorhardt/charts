@@ -50,7 +50,6 @@ helm template <release-name> ./charts/squares-api -f custom-values.yaml
 
 ### Application Charts
 - **squares** / **squares-api** - Squares frontend and API
-- **olympics** / **olympics-api** - Olympics frontend and API
 - **maxstash** - Maxstash frontend
 - **maxstash-gateway** - Gateway API resources for the `maxstash.io` gateway
 - **cloudflare-cidr** / **cloudflare-ddns** - Cloudflare CronJobs
