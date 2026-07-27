@@ -13,31 +13,46 @@ This repository contains Helm charts for deploying and managing applications on 
 
 ## Setup
 
-Required for deployment:
-- Kubernetes cluster (1.19+)
+Required to work on charts locally:
 - Helm 3.x installed
-- `kubectl` configured to access your cluster
+- `kubectl` configured to access your cluster (for inspecting what Argo deployed)
 
-## Usage
+## Deployment
 
-To install a chart from this repository:
+Charts are **not** installed with `helm install`. CI publishes each chart as an OCI artifact to `ghcr.io/maxmorhardt/charts`, and [Argo CD](https://github.com/maxmorhardt/k8s/blob/main/argocd/SETUP.md) deploys it from an `Application` manifest that lives in the [k8s](https://github.com/maxmorhardt/k8s) repo under `argocd/apps/`:
+
+```yaml
+source:
+  repoURL: ghcr.io/maxmorhardt/charts
+  chart: squares
+  targetRevision: 1.0.1      # chart version — this repo's CI commits this line
+  helm:
+    parameters:
+      - name: image.tag
+        value: 1.4.2         # each app repo's release workflow commits this line
+```
+
+Both lines are pinned exactly, and both are committed by CI:
+
+- **A chart change ships** when its release tag lands. This repo's CI publishes the OCI chart, then commits the new `targetRevision` to the k8s repo. That covers changes with no image at all — bumping `cloudflare-cidr`'s python file is a chart release, and that release is the deploy.
+- **An app image ships** when that app repo's CI commits a new `image.tag`.
+
+Nothing rolls out on its own. A version reaching the cluster is always a commit you can read, review, and `git revert`. This repo holds chart *source* only; no deployment state lives here.
+
+To render a chart locally while working on it:
 
 ```bash
-# Install from local directory
-helm install <release-name> ./squares-api
-
-# Install with custom values
-helm install <release-name> ./squares-api -f custom-values.yaml
-
-# Upgrade an existing release
-helm upgrade <release-name> ./squares-api
+helm template <release-name> ./charts/squares-api
+helm template <release-name> ./charts/squares-api -f custom-values.yaml
 ```
 
 ## Available Charts
 
 ### Application Charts
-- **squares** - Frontend application chart
-- **squares-api** - API service chart
+- **squares** / **squares-api** - Squares frontend and API
+- **maxstash** - Maxstash frontend
+- **maxstash-gateway** - Gateway API resources for the `maxstash.io` gateway
+- **cloudflare-cidr** / **cloudflare-ddns** - Cloudflare CronJobs
 
 Each chart includes:
 - Deployment with configurable replicas

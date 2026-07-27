@@ -2,6 +2,4 @@ apiVersion: v2
 name: squares
 description: Chart for squares
 type: application
-version: 1.0.1
-# renovate: image=maxmorhardt/squares
-appVersion: 1.1.2
+version: 1.0.2
