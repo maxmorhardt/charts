@@ -25,7 +25,7 @@ Charts are **not** installed with `helm install`. CI publishes each chart as an 
 source:
   repoURL: ghcr.io/maxmorhardt/charts
   chart: squares
-  targetRevision: 1.0.1      # chart version — this repo's CI commits this line
+  targetRevision: 1.0.1      # chart version
   helm:
     parameters:
       - name: image.tag
