@@ -128,7 +128,7 @@ metrics:
         labels:
           severity: warning
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'High request latency detected'
           description: 'P99 latency is {{ $value }}s for {{ $labels.method }} {{ $labels.path }} on {{ $labels.job }}'
@@ -140,7 +140,7 @@ metrics:
         labels:
           severity: critical
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'Critical request latency detected'
           description: 'P99 latency is {{ $value }}s for {{ $labels.method }} {{ $labels.path }} on {{ $labels.job }}'
@@ -153,7 +153,7 @@ metrics:
         labels:
           severity: warning
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'High HTTP error rate'
           description: 'Error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}'
@@ -165,7 +165,7 @@ metrics:
         labels:
           severity: critical
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'Critical HTTP error rate'
           description: 'Error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}'
@@ -178,7 +178,7 @@ metrics:
         labels:
           severity: warning
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'Significant drop in request rate'
           description: 'Request rate has dropped to {{ $value | humanizePercentage }} of normal for {{ $labels.job }}'
@@ -191,7 +191,7 @@ metrics:
         labels:
           severity: warning
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'High client error rate'
           description: '4xx error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}'
@@ -203,33 +203,33 @@ metrics:
         labels:
           severity: critical
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'Critical client error rate'
           description: '4xx error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}'
 
       # Scores Worker
+      # the advisory lock moves between replicas, so failures must be summed across pods
       - alert: ScoresWorkerFailing
         expr: |
-          increase(scores_worker_runs_total{job="{{ include "app.fullname" . }}",result="error"}[1h]) >= 3
+          sum by (job) (increase(scores_worker_runs_total{job="{{ include "app.fullname" . }}",result="error"}[1h])) >= 3
         for: 5m
         labels:
           severity: warning
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'Scores worker runs are failing'
           description: '{{ $value }} scores worker runs failed in the last hour on {{ $labels.job }}; the ESPN scoreboard response may have changed'
 
-      # threshold clears the 6h idle poll interval; the > 0 guard keeps a never-yet-run worker quiet
+      # threshold clears the 6h idle poll interval
       - alert: ScoresWorkerStale
         expr: |
-          (time() - max(scores_worker_last_success_timestamp_seconds{job="{{ include "app.fullname" . }}"}) > 25200) and (max(scores_worker_last_success_timestamp_seconds{job="{{ include "app.fullname" . }}"}) > 0)
-        for: 30m
+          (time() - max by (job) (scores_worker_last_success_timestamp_seconds{job="{{ include "app.fullname" . }}"}) > 25200) and (max by (job) (scores_worker_last_success_timestamp_seconds{job="{{ include "app.fullname" . }}"}) > 0)
         labels:
           severity: critical
           component: squares-api
-          layer: api
+          layer: backend
         annotations:
           summary: 'Scores worker has not succeeded recently'
           description: 'Last successful scores worker run was {{ $value }}s ago; live contests are not being scored'
