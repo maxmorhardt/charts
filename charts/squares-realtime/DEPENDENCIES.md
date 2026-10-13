@@ -21,7 +21,7 @@ The `squares-realtime` service: one Deployment, Service, HPA, PDB, HTTPRoute, Se
 ## Secrets
 
 `squares-realtime-env` in the `squares` namespace, read with `envFrom` (override the name with `secretName`). Sealed into
-`argocd/secrets/squares/` in the k8s repo; see [sealed-secrets](https://github.com/maxmorhardt/k8s/blob/main/sealed-secrets/SETUP.md).
+`argocd/secrets/squares/` in the infra repo; see [sealed-secrets](https://github.com/maxmorhardt/infra/blob/main/sealed-secrets/SETUP.md).
 
 | group | keys |
 | --- | --- |
@@ -29,7 +29,7 @@ The `squares-realtime` service: one Deployment, Service, HPA, PDB, HTTPRoute, Se
 | service-to-service | `INTERNAL_API_TOKEN` (the same value in contests, accounts, and realtime) |
 | http | `ALLOWED_ORIGINS` |
 
-`REDIS_URL` is `redis://squares:<password>@redis.redis.svc:6379/0`, the `squares` ACL user from the k8s repo's `redis-users` secret.
+`REDIS_URL` is `redis://squares:<password>@redis.redis.svc:6379/0`, the `squares` ACL user from the infra repo's `redis-users` secret.
 `SERVER_PORT` and `METRICS_*` come from the chart; other settings go in `env` in `values.yaml` (see the service's `.env.example` in the maxstash repo for each one and its default).
 
 ## Optional

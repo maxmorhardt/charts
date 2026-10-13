@@ -5,7 +5,7 @@ to, so this deploys before the apps.
 
 ## Required
 
-- **Envoy Gateway controller** — installed from the `k8s` repo into `envoy-gateway-system`,
+- **Envoy Gateway controller** — installed from the `infra` repo into `envoy-gateway-system`,
   along with the Gateway API CRDs
 - **TLS** — the `maxstash.io-tls` secret must exist in `envoy-gateway-system`; the listeners
   reference it for both `maxstash.io` and `*.maxstash.io`

@@ -19,7 +19,7 @@ Required to work on charts locally:
 
 ## Deployment
 
-Charts are **not** installed with `helm install`. CI publishes each chart as an OCI artifact to `ghcr.io/maxmorhardt/charts`, and [Argo CD](https://github.com/maxmorhardt/k8s/blob/main/argocd/SETUP.md) deploys it from an `Application` manifest that lives in the [k8s](https://github.com/maxmorhardt/k8s) repo under `argocd/apps/`:
+Charts are **not** installed with `helm install`. CI publishes each chart as an OCI artifact to `ghcr.io/maxmorhardt/charts`, and [Argo CD](https://github.com/maxmorhardt/infra/blob/main/argocd/SETUP.md) deploys it from an `Application` manifest that lives in the [infra](https://github.com/maxmorhardt/infra) repo under `argocd/apps/`:
 
 ```yaml
 source:
@@ -34,7 +34,7 @@ source:
 
 Both lines are pinned exactly, and both are committed by CI:
 
-- **A chart change ships** when its release tag lands. This repo's CI publishes the OCI chart, then commits the new `targetRevision` to the k8s repo. That covers changes with no image at all — bumping `cloudflare-cidr`'s python file is a chart release, and that release is the deploy.
+- **A chart change ships** when its release tag lands. This repo's CI publishes the OCI chart, then commits the new `targetRevision` to the infra repo. That covers changes with no image at all — bumping `cloudflare-cidr`'s python file is a chart release, and that release is the deploy.
 - **An app image ships** when that app's release (in the `maxstash` monorepo) commits a new `image.tag`.
 
 Nothing rolls out on its own. A version reaching the cluster is always a commit you can read, review, and `git revert`. This repo holds chart *source* only; no deployment state lives here.
