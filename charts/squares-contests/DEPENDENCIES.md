@@ -5,7 +5,7 @@ The `squares-contests` service: one Deployment, Service, HPA, PDB, HTTPRoute, Se
 ## Required
 
 - **PostgreSQL** - 17+, primary and optional read replica. One database shared by the squares services; this service migrates only its own `contests` schema at startup (on the first start after the split it also adopts the pre-split contest tables from `public` and seeds its copies of users and games from them).
-- **Redis** (Valkey in the `redis` namespace) - contest streams, leaderboard and stats caches, idempotency records, and the revocation list.
+- **Valkey** (the `valkey` namespace) - contest streams, leaderboard and stats caches, idempotency records, and the revocation list.
 - **Envoy Gateway** - the `maxstash` Gateway in `envoy-gateway-system` (HTTPRoute parentRef). Its `ClientTrafficPolicy` must strip client-sent `X-Auth-*` and `X-Internal-Token` headers (see `charts/maxstash-gateway`), because the service trusts them.
 - **Dex** - `squares` and `squares-mobile` clients at `login.maxstash.io`. The chart's `SecurityPolicy` validates tokens against `https://login.maxstash.io/keys`.
 - **NetworkPolicy enforcement** - k3s enforces NetworkPolicy with its embedded controller. The policy admits app traffic only from `envoy-gateway-system`, plus `/internal` calls from `squares-accounts` and `squares-realtime` and metrics only from `monitoring`.
@@ -34,7 +34,7 @@ The `squares-contests` service: one Deployment, Service, HPA, PDB, HTTPRoute, Se
 | service-to-service | `INTERNAL_API_TOKEN` (the same value in contests, accounts, and realtime) |
 | http | `ALLOWED_ORIGINS` |
 
-`REDIS_URL` is `redis://squares:<password>@redis.redis.svc:6379/0`, the `squares` ACL user from the infra repo's `redis-users` secret.
+`REDIS_URL` is `redis://squares:<password>@valkey.valkey.svc:6379/0`, the `squares` ACL user from the infra repo's `valkey-users` secret.
 `SERVER_PORT` and `METRICS_*` come from the chart; other settings go in `env` in `values.yaml` (see the service's `.env.example` in the maxstash repo for each one and its default).
 
 ## Optional

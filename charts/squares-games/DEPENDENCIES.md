@@ -5,7 +5,7 @@ The `squares-games` service: one Deployment, Service, HPA, PDB, HTTPRoute, Secur
 ## Required
 
 - **PostgreSQL** - 17+, primary and optional read replica. One database shared by the squares services; this service migrates only its own `games` schema at startup (and adopts the pre-split `games` and `game_scores` tables from `public` on the first start after the split).
-- **Redis** (Valkey in the `redis` namespace) - the games stream, the upcoming-games cache, and the revocation list.
+- **Valkey** (the `valkey` namespace) - the games stream, the upcoming-games cache, and the revocation list.
 - **ESPN** - `site.api.espn.com`, public and unauthenticated.
 - **Envoy Gateway** - the `maxstash` Gateway in `envoy-gateway-system` (HTTPRoute parentRef). Its `ClientTrafficPolicy` must strip client-sent `X-Auth-*` and `X-Internal-Token` headers (see `charts/maxstash-gateway`), because the service trusts them.
 - **Dex** - `squares` and `squares-mobile` clients at `login.maxstash.io`. The chart's `SecurityPolicy` validates tokens against `https://login.maxstash.io/keys`.
@@ -31,7 +31,7 @@ The `squares-games` service: one Deployment, Service, HPA, PDB, HTTPRoute, Secur
 | redis | `REDIS_URL` |
 | http | `ALLOWED_ORIGINS` |
 
-`REDIS_URL` is `redis://squares:<password>@redis.redis.svc:6379/0`, the `squares` ACL user from the infra repo's `redis-users` secret.
+`REDIS_URL` is `redis://squares:<password>@valkey.valkey.svc:6379/0`, the `squares` ACL user from the infra repo's `valkey-users` secret.
 `SERVER_PORT` and `METRICS_*` come from the chart; other settings go in `env` in `values.yaml` (see the service's `.env.example` in the maxstash repo for each one and its default).
 
 ## Optional

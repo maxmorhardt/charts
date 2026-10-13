@@ -5,7 +5,7 @@ The `squares-accounts` service: one Deployment, Service, HPA, PDB, HTTPRoute, Se
 ## Required
 
 - **PostgreSQL** - 17+, primary and optional read replica. One database shared by the squares services; this service migrates only its own `accounts` schema at startup (and adopts the pre-split `users`, `deleted_accounts`, and `contact_submissions` tables from `public` on the first start after the split).
-- **Redis** (Valkey in the `redis` namespace) - the users stream, the revocation list (written here on deletion and rebuilt from Postgres on every start), the contact rate limit, and idempotency records.
+- **Valkey** (the `valkey` namespace) - the users stream, the revocation list (written here on deletion and rebuilt from Postgres on every start), the contact rate limit, and idempotency records.
 - **squares-contests** - its `/internal` routes, at `CONTESTS_INTERNAL_URL` with `INTERNAL_API_TOKEN`.
 - **SMTP** - outbound email for the contact form.
 - **Cloudflare Turnstile** - verifies the contact form captcha.
@@ -37,7 +37,7 @@ The `squares-accounts` service: one Deployment, Service, HPA, PDB, HTTPRoute, Se
 | captcha | `TURNSTILE_SECRET_KEY` |
 | http | `ALLOWED_ORIGINS`, `CONTACT_RATE_LIMIT` |
 
-`REDIS_URL` is `redis://squares:<password>@redis.redis.svc:6379/0`, the `squares` ACL user from the infra repo's `redis-users` secret.
+`REDIS_URL` is `redis://squares:<password>@valkey.valkey.svc:6379/0`, the `squares` ACL user from the infra repo's `valkey-users` secret.
 `SERVER_PORT` and `METRICS_*` come from the chart; other settings go in `env` in `values.yaml` (see the service's `.env.example` in the maxstash repo for each one and its default).
 
 ## Optional
