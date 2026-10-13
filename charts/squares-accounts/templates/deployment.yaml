@@ -61,6 +61,11 @@ spec:
               value: {{ .Values.metrics.enabled | quote }}
             - name: METRICS_PORT
               value: {{ .Values.metrics.service.targetPort | quote }}
+            # the go runtime collects harder as it nears the container limit instead of being oom-killed
+            - name: GOMEMLIMIT
+              valueFrom:
+                resourceFieldRef:
+                  resource: limits.memory
             {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
               value: {{ $value | quote }}

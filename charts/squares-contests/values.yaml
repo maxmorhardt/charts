@@ -53,19 +53,21 @@ secretName: ''
 env: {}
 
 
+# small pods, two to three of them: memory requests equal limits so a pod is never evicted for using
+# what it asked for, and cpu can burst past the request for startup and migrations
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 250m
+    memory: 128Mi
   requests:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 50m
+    memory: 128Mi
 
 hpa:
   enabled: true
   minReplicas: 2
-  maxReplicas: 6
-  targetCPU: 85
+  maxReplicas: 3
+  targetCPU: 80
   targetRAM: 85
 
 pdb:

@@ -53,20 +53,22 @@ secretName: ''
 env:
   SCORES_ENABLED: 'true'
 
+# small pods, two to three of them: memory requests equal limits so a pod is never evicted for using
+# what it asked for, and cpu can burst past the request for startup and migrations
 resources:
   limits:
     cpu: 250m
-    memory: 256Mi
+    memory: 128Mi
   requests:
-    cpu: 250m
-    memory: 256Mi
+    cpu: 50m
+    memory: 128Mi
 
 # the scores worker holds an advisory lock, so extra replicas only serve /games/upcoming
 hpa:
   enabled: true
   minReplicas: 2
   maxReplicas: 3
-  targetCPU: 85
+  targetCPU: 80
   targetRAM: 85
 
 pdb:

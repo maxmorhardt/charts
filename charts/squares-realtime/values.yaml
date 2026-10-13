@@ -55,19 +55,21 @@ env:
   SSE_HEARTBEAT_INTERVAL: 25s
   SSE_REVOCATION_INTERVAL: 5m
 
+# small pods, two to three of them: memory requests equal limits so a pod is never evicted for using
+# what it asked for, and cpu can burst past the request for startup and migrations
 resources:
   limits:
     cpu: 250m
-    memory: 256Mi
+    memory: 128Mi
   requests:
-    cpu: 250m
-    memory: 256Mi
+    cpu: 50m
+    memory: 128Mi
 
 hpa:
   enabled: true
   minReplicas: 2
-  maxReplicas: 6
-  targetCPU: 70
+  maxReplicas: 3
+  targetCPU: 80
   targetRAM: 85
 
 pdb:
