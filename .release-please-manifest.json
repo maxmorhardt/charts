@@ -4,8 +4,8 @@
   "charts/maxstash": "1.1.0",
   "charts/maxstash-gateway": "1.1.0",
   "charts/squares": "1.1.0",
-  "charts/squares-accounts": "1.0.0",
-  "charts/squares-contests": "1.0.0",
-  "charts/squares-games": "1.0.0",
-  "charts/squares-realtime": "1.0.0"
+  "charts/squares-accounts": "1.1.0",
+  "charts/squares-contests": "1.1.0",
+  "charts/squares-games": "1.1.0",
+  "charts/squares-realtime": "1.1.0"
 }
