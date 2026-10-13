@@ -4,11 +4,45 @@
   "include-v-in-tag": false,
   "include-component-in-tag": true,
   "packages": {
-    "charts/cloudflare-cidr": { "release-type": "helm", "component": "cloudflare-cidr" },
-    "charts/cloudflare-ddns": { "release-type": "helm", "component": "cloudflare-ddns" },
-    "charts/maxstash": { "release-type": "helm", "component": "maxstash" },
-    "charts/maxstash-gateway": { "release-type": "helm", "component": "maxstash-gateway" },
-    "charts/squares": { "release-type": "helm", "component": "squares" },
-    "charts/squares-api": { "release-type": "helm", "component": "squares-api" }
+    "charts/cloudflare-cidr": {
+      "release-type": "helm",
+      "component": "cloudflare-cidr"
+    },
+    "charts/cloudflare-ddns": {
+      "release-type": "helm",
+      "component": "cloudflare-ddns"
+    },
+    "charts/maxstash": {
+      "release-type": "helm",
+      "component": "maxstash"
+    },
+    "charts/maxstash-gateway": {
+      "release-type": "helm",
+      "component": "maxstash-gateway"
+    },
+    "charts/squares": {
+      "release-type": "helm",
+      "component": "squares"
+    },
+    "charts/squares-accounts": {
+      "release-type": "helm",
+      "component": "squares-accounts",
+      "initial-version": "1.0.0"
+    },
+    "charts/squares-contests": {
+      "release-type": "helm",
+      "component": "squares-contests",
+      "initial-version": "1.0.0"
+    },
+    "charts/squares-games": {
+      "release-type": "helm",
+      "component": "squares-games",
+      "initial-version": "1.0.0"
+    },
+    "charts/squares-realtime": {
+      "release-type": "helm",
+      "component": "squares-realtime",
+      "initial-version": "1.0.0"
+    }
   }
 }
