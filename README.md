@@ -35,21 +35,23 @@ source:
 Both lines are pinned exactly, and both are committed by CI:
 
 - **A chart change ships** when its release tag lands. This repo's CI publishes the OCI chart, then commits the new `targetRevision` to the k8s repo. That covers changes with no image at all — bumping `cloudflare-cidr`'s python file is a chart release, and that release is the deploy.
-- **An app image ships** when that app repo's CI commits a new `image.tag`.
+- **An app image ships** when that app's release (in the `maxstash` monorepo) commits a new `image.tag`.
 
 Nothing rolls out on its own. A version reaching the cluster is always a commit you can read, review, and `git revert`. This repo holds chart *source* only; no deployment state lives here.
 
 To render a chart locally while working on it:
 
 ```bash
-helm template <release-name> ./charts/squares-api
-helm template <release-name> ./charts/squares-api -f custom-values.yaml
+# app charts require image.tag, which argo cd sets in the cluster
+helm template <release-name> ./charts/squares-contests --set image.tag=1.0.0
+helm template <release-name> ./charts/squares-contests --set image.tag=1.0.0 -f custom-values.yaml
 ```
 
 ## Available Charts
 
 ### Application Charts
-- **squares** / **squares-api** - Squares frontend and API
+- **squares** - Squares frontend
+- **squares-contests** / **squares-games** / **squares-accounts** / **squares-realtime** - the four Squares backend services
 - **maxstash** - Maxstash frontend
 - **maxstash-gateway** - Gateway API resources for the `maxstash.io` gateway
 - **cloudflare-cidr** / **cloudflare-ddns** - Cloudflare CronJobs
