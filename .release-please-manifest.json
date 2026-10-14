@@ -1,11 +1,11 @@
 {
-  "charts/cloudflare-cidr": "1.1.0",
-  "charts/cloudflare-ddns": "1.1.0",
-  "charts/maxstash": "1.1.0",
+  "charts/cloudflare-cidr": "1.1.1",
+  "charts/cloudflare-ddns": "1.1.1",
+  "charts/maxstash": "1.1.1",
   "charts/maxstash-gateway": "1.1.0",
-  "charts/squares": "1.1.0",
-  "charts/squares-accounts": "1.1.0",
-  "charts/squares-contests": "1.1.0",
-  "charts/squares-games": "1.1.0",
-  "charts/squares-realtime": "1.1.0"
+  "charts/squares": "1.1.1",
+  "charts/squares-accounts": "1.1.1",
+  "charts/squares-contests": "1.1.1",
+  "charts/squares-games": "1.1.1",
+  "charts/squares-realtime": "1.1.1"
 }
